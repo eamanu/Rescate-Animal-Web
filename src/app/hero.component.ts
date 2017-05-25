@@ -25,7 +25,7 @@ export class HeroComponent implements OnInit {
 
   getHeroes() : void {
     //this.heroes = this.heroService.getHeroes().then(heroes => this.heroes = heroes); // syncrhonize task
-    this.heroService.getHeroSlowly().then(heroes => this.heroes = heroes); // async task
+    this.heroService.getHeroes().then(heroes => this.heroes = heroes); // async task
   }
 
   onSelect(hero: Hero): void {
@@ -34,5 +34,16 @@ export class HeroComponent implements OnInit {
 
   gotoDetail():void{
     this.router.navigate(['/detail', this.selectedHero.id]);
+  }
+
+  add(name: string):void{
+    name = name.trim();
+    if(!name){ return; }
+    this.heroService.create(name)
+      .then( hero => {
+        this.heroes.push(hero)
+        this.selectedHero = null;
+      });
+
   }
 }
